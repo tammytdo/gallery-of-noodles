@@ -55,6 +55,16 @@ function displayImages() {
   let imgTwo = allNoodleDishes[getRandomInt()];
   let imgThree = allNoodleDishes[getRandomInt()];
 
+  while (imgOne.name === imgTwo.name || imgOne.name === imgThree.name) {
+    console.log("same: ", imgOne.name)
+    imgOne = allNoodleDishes[getRandomInt()]
+  }
+
+  while (imgTwo.name === imgThree.name) {
+    console.log("same: ", imgTwo.name)
+    imgTwo = allNoodleDishes[getRandomInt()]
+  }
+
   leftImg = document.getElementById("img1");
   leftImg.src = imgOne.path;
   leftImg.alt = imgOne.name;
