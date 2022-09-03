@@ -42,7 +42,7 @@ function NoodleDishes(name, path) {
   this.name = name;
   this.path = path;
   this.viewed = 0;
-  this.vote = 0;
+  this.votes = 0;
   this.width = 300;
   this.height = 200;
   allNoodleDishes.push(this);
@@ -74,9 +74,9 @@ function generateThreeRandomImages() {
     imgOne = allNoodleDishes[getRandomInt()];
     imgTwo = allNoodleDishes[getRandomInt()];
   }
-  img1.viewed++;
-  img2.viewed++;
-  img3.viewed++;
+  imgOne.viewed++;
+  imgTwo.viewed++;
+  imgThree.viewed++;
 }
 
 function displayImages() {
@@ -120,13 +120,11 @@ function handleEventListener(event) {
   let imgAlt = event.target.alt;
   for (let i in allNoodleDishes) {
     if (imgAlt === allNoodleDishes[i].name) {
-      allNoodleDishes[i].vote++;
+      allNoodleDishes[i].votes++;
     }
   }
   if (voteCounter === maxVotes) {
     imagesContainer.removeEventListener("click", handleEventListener);
-    
-    displayChart();
   } else {
     displayImages();
   }
@@ -135,47 +133,62 @@ function handleEventListener(event) {
   imgThreeContainer.removeChild(imgThreeContainer.lastChild.previousSibling);
 }
 
+function showResults(){
+  let resultsButton = document.getElementById('showResults');
+  resultsButton.hidden = false;
+  resultsButton.addEventListener('click', function(){
+    resultsButton.hidden = true;
+    displayChart();
+  })
+}
 
 function displayChart() {
   const ctx = document.getElementById("myChart").getContext("2d");
 
   const labels = [];
   const viewsDataset = {
-    label: "Times shown",
-    data: [], // Fill with views
-    backgroundColor: ["rgba(255, 0, 0, 0.8)"],
+    label: "Times Viewed",
+    data: [], 
+    backgroundColor: ["orange"],
+    borderColor: ["grey"],
+    borderWidth: 1,
   };
-  const clicksDataset = {
-    label: "Times voted",
-    data: [], // Fill with clicks
-    backgroundColor: ["rgba(0, 0, 255, 0.8)"],
+  const votesDataset = {
+    label: "Times Voted",
+    data: [],
+    backgroundColor: ["green"],
+    borderColor: ["grey"],
+    borderWidth: 2,
   };
 
   for (let i in allNoodleDishes) {
     let noodleDish = allNoodleDishes[i];
     labels[i] = noodleDish.name;
-    viewsDataset.data[i] = noodleDish.views;
-    clicksDataset.data[i] = noodleDish.vote;
+    viewsDataset.data[i] = noodleDish.viewed;
+    votesDataset.data[i] = noodleDish.votes;
   }
 
   const myChart = new Chart(ctx, {
     type: "bar",
     data: {
-      labels: labels, // product names
+      labels: labels,
       datasets: [
-        viewsDataset, // Dataset for number of clicks
-        clicksDataset, // Dataset for number of clicks
+        viewsDataset,
+        votesDataset,
       ],
     },
     options: {
+      // responsive: true,
       scales: {
         y: {
-          beginAtZero: true,
+          grace: '5%',
+          ticks: {
+            stepSize: 1,
+          },
         },
       },
     },
   });
-console.log(myChart);
 }
 
 
