@@ -36,3 +36,16 @@ p {
   margin: auto;
   text-align: center;
 }
+
+#chart-container {
+  width: 70%;
+  position: absolute;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+#buttons-box {
+  margin: 50px;
+  display: flex;
+  justify-content: space-around;
+}

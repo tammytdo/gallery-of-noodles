@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gallery of Noodles<</title>
     <link rel="stylesheet" href="style.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+
   </head>
   <body class="body-container">
     <h1>Gallery of Noodles</h1>
@@ -20,13 +22,15 @@
     <section id="img3-container">
       <img src="" alt="" id="img3" class="four-columns">
     </section>
-    <section id="buttons-box">
-      <button type="button" name="results-button" id="show-results" hidden>Show Results</button>
-      <button type="button" name="reset" id="reset-voting" hidden>Reset</button>
-    </section>
     </div>
-    <section id="results-chart"></section>
-    <footer></footer>
+    <div id="buttons-box">
+      <button type="button" name="results-button" id="show-results">Show Results</button>
+      <button type="button" name="reset" id="reset-voting" hidden>Reset</button>
+    </div>
+    <div id="chart-container">
+      <canvas id="myChart"></canvas>
+    </div>
     <script type="text/javascript" src="app.js"></script>
+
   </body>
 </html>
