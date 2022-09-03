@@ -51,10 +51,10 @@ function NoodleDishes(name, path) {
 
 function constructNoodleDishes() {
   for (let i in noodleTypes) {
-    let dishName = noodleTypes[i];
+    let dishName = noodleTypes[i].name;
     let formatDishName = noodleTypes[i].replace(/\s+/g, "");
-    let path = `./images/${formatDishName}.jpeg`;
-    new NoodleDishes(dishName, path);
+    let path = `./images/${dishName}.jpeg`;
+    new NoodleDishes(formatDishName, path);
   }
 }
 
