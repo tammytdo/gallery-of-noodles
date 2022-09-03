@@ -20,9 +20,9 @@ const noodleTypes = [
   "Instant Noodle",
   "Mi Quang",
   "Pad Thai",
-  "Pho",
-  "Ramen",
-  "Udon",
+  "Beef Pho",
+  "Fresh Ramen",
+  "Fresh Udon",
   "Wonton Noodle Soup",
 ];
 
