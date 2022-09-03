@@ -4,6 +4,7 @@ let imagesContainer = document.getElementById("images-container");
 let imgOneContainer = document.getElementById("img1-container");
 let imgTwoContainer = document.getElementById("img2-container");
 let imgThreeContainer = document.getElementById("img3-container");
+let resultsButton = document.getElementById('show-results');
 
 const noodleTypes = [
   "Banh Canh",
@@ -36,7 +37,7 @@ let midImg = null;
 let rightImg = null;
 
 let voteCounter = 0;
-let maxVotes = 5;
+let maxVotes = 10;
 
 function NoodleDishes(name, path) {
   this.name = name;
@@ -125,6 +126,7 @@ function handleEventListener(event) {
   }
   if (voteCounter === maxVotes) {
     imagesContainer.removeEventListener("click", handleEventListener);
+    showResultsButton();    
   } else {
     displayImages();
   }
@@ -133,16 +135,15 @@ function handleEventListener(event) {
   imgThreeContainer.removeChild(imgThreeContainer.lastChild.previousSibling);
 }
 
-function showResults(){
-  let resultsButton = document.getElementById('showResults');
+
+function showResultsButton() {
   resultsButton.hidden = false;
-  resultsButton.addEventListener('click', function(){
-    resultsButton.hidden = true;
-    displayChart();
-  })
+  resultsButton.addEventListener("click",  displayChart);
 }
 
 function displayChart() {
+  resultsButton.hidden = true;
+
   const ctx = document.getElementById("myChart").getContext("2d");
 
   const labels = [];
@@ -190,6 +191,7 @@ function displayChart() {
     },
   });
 }
+
 
 constructNoodleDishes();
 displayImages();
