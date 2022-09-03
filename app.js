@@ -51,10 +51,9 @@ function NoodleDishes(name, path) {
 
 function constructNoodleDishes() {
   for (let i in noodleTypes) {
-    let dishName = noodleTypes[i].name;
-    let formatDishName = noodleTypes[i].replace(/\s+/g, "");
+    let dishName = noodleTypes[i];
     let path = `./images/${dishName}.jpeg`;
-    new NoodleDishes(formatDishName, path);
+    new NoodleDishes(dishName, path);
   }
 }
 
@@ -191,6 +190,7 @@ function displayChart() {
     },
   });
 }
+
 
 constructNoodleDishes();
 displayImages();
