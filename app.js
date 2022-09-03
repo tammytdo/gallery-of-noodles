@@ -191,6 +191,5 @@ function displayChart() {
   });
 }
 
-
 constructNoodleDishes();
 displayImages();
