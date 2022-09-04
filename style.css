@@ -40,8 +40,7 @@ p {
 #chart-container {
   width: 70%;
   position: absolute;
-  margin-left: 10%;
-  margin-right: 10%;
+  margin: 0 10% 0 15%;
 }
 
 #buttons-box {
