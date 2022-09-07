@@ -126,6 +126,7 @@ function handleEventListener(event) {
   if (voteCounter === maxVotes) {
     imagesContainer.removeEventListener("click", handleEventListener);
     showResultsButton();    
+
   } else {
     displayImages();
   }
@@ -134,6 +135,9 @@ function handleEventListener(event) {
   imgThreeContainer.removeChild(imgThreeContainer.lastChild.previousSibling);
 }
 
+function setLocalStorage(){
+  localStorage.setItem('allNoodleDishes', JSON.stringify(allNoodleDishes));
+}
 
 function showResultsButton() {
   resultsButton.hidden = false;
@@ -141,6 +145,8 @@ function showResultsButton() {
 }
 
 function displayChart() {
+  setLocalStorage();
+
   resultsButton.hidden = true;
 
   const ctx = document.getElementById("myChart").getContext("2d");
