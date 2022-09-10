@@ -7,25 +7,24 @@ let imgThreeContainer = document.getElementById("img3-container");
 let resultsButton = document.getElementById('show-results');
 
 const noodleTypes = [
-  "Banh Canh",
   "Banh Hoi",
+  "Banh Canh",
   "Banh Uot",
   "Bun Bo Hue",
+  "Beef Pho",
   "Bun Cha",
   "Bun Rieu",
   "Bun Thit Nuong",
-  "Chow Fun",
   "Chow Mein",
+  "Fresh Udon",
+  "Fresh Ramen",
   "Hu Tieu",
   "Instant Noodle",
-  "Mi Quang",
   "Pad Thai",
-  "Beef Pho",
-  "Fresh Ramen",
-  "Fresh Udon",
   "Wonton Noodle Soup",
 ];
 
+let data = {};
 let allNoodleDishes = [];
 
 let imgOne = null;
@@ -46,6 +45,8 @@ function NoodleDishes(name, path) {
   this.votes = 0;
   this.width = 300;
   this.height = 200;
+  data.labels.push(name);
+  data.datasets[0].data.push(0);
   allNoodleDishes.push(this);
 }
 
@@ -54,6 +55,31 @@ function constructNoodleDishes() {
     let dishName = noodleTypes[i];
     let path = `./images/${dishName}.jpeg`;
     new NoodleDishes(dishName, path);
+  }
+  localStorage.setItem('allNoodleDishes', JSON.stringify(allNoodleDishes));
+}
+
+function checkLocalStorage(){
+  if (localStorage.chartData && localStorage.allNoodleDishes){
+    console.log("data exists");
+    data = JSON.parse(localStorage.chartData);
+    allNoodleDishes = JSON.parse(localStorage.getItem('allNoodleDishes'));
+  } else {
+    console.log("data does not exist");
+    data = {
+      labels: [],
+      datasets: [
+        {
+          label: 'Product Analysis Results',
+          fillColor: 'rgba(220,22,0,1)',
+          strokeColor: 'rgba(220,22,0,0.8)',
+          highlightFill: 'rgba(220,22,0,0.75)',
+          highlightStroke: 'rgba(220,22,0,1)',
+          data: []
+        }
+      ]
+    };
+    constructNoodleDishes(); 
   }
 }
 
@@ -74,6 +100,7 @@ function generateThreeRandomImages() {
     imgOne = allNoodleDishes[getRandomInt()];
     imgTwo = allNoodleDishes[getRandomInt()];
   }
+  
   imgOne.viewed++;
   imgTwo.viewed++;
   imgThree.viewed++;
@@ -113,7 +140,6 @@ function displayImages() {
   imgThreeContainer.appendChild(pElementRight);
 }
 
-imagesContainer.addEventListener("click", handleEventListener);
 
 function handleEventListener(event) {
   voteCounter++;
@@ -121,8 +147,12 @@ function handleEventListener(event) {
   for (let i in allNoodleDishes) {
     if (imgAlt === allNoodleDishes[i].name) {
       allNoodleDishes[i].votes++;
+      data.datasets[0].data[i] = allNoodleDishes[i].votes;
     }
   }
+  localStorage.setItem('chartData', JSON.stringify(data));
+  localStorage.setItem('allNoodleDishes', JSON.stringify(allNoodleDishes));
+
   if (voteCounter === maxVotes) {
     imagesContainer.removeEventListener("click", handleEventListener);
     showResultsButton();    
@@ -135,18 +165,12 @@ function handleEventListener(event) {
   imgThreeContainer.removeChild(imgThreeContainer.lastChild.previousSibling);
 }
 
-function setLocalStorage(){
-  localStorage.setItem('allNoodleDishes', JSON.stringify(allNoodleDishes));
-}
-
 function showResultsButton() {
   resultsButton.hidden = false;
   resultsButton.addEventListener("click",  displayChart);
 }
 
 function displayChart() {
-  setLocalStorage();
-
   resultsButton.hidden = true;
 
   const ctx = document.getElementById("myChart").getContext("2d");
@@ -155,23 +179,22 @@ function displayChart() {
   const viewsDataset = {
     label: "Times Viewed",
     data: [], 
-    backgroundColor: ["orange"],
-    borderColor: ["grey"],
+    backgroundColor: ["blue"],
+    borderColor: ["blue"],
     borderWidth: 1,
   };
   const votesDataset = {
     label: "Times Voted",
     data: [],
-    backgroundColor: ["green"],
-    borderColor: ["grey"],
+    backgroundColor: ["gold"],
+    borderColor: ["gold"],
     borderWidth: 2,
   };
 
   for (let i in allNoodleDishes) {
-    let noodleDish = allNoodleDishes[i];
-    labels[i] = noodleDish.name;
-    viewsDataset.data[i] = noodleDish.viewed;
-    votesDataset.data[i] = noodleDish.votes;
+    labels[i] = allNoodleDishes[i].name;
+    viewsDataset.data[i] = allNoodleDishes[i].viewed;
+    votesDataset.data[i] = allNoodleDishes[i].votes;
   }
 
   const myChart = new Chart(ctx, {
@@ -184,7 +207,7 @@ function displayChart() {
       ],
     },
     options: {
-      // responsive: true,
+      responsive: true,
       scales: {
         y: {
           grace: '5%',
@@ -197,6 +220,11 @@ function displayChart() {
   });
 }
 
+function init(){
+  checkLocalStorage();
+  displayImages();
+}
 
-constructNoodleDishes();
-displayImages();
+init();
+
+imagesContainer.addEventListener("click", handleEventListener);
