@@ -46,7 +46,7 @@ p {
 #show-results {
   width: 200px;
   height: 80px;
-  background-color: orangered;
+  background-color: orange;
   border: 3px yellow solid;
   font-size: 20px;
   transition: .3s;
